@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>org.nadel.cheats</string>
+	<key>category</key>
+	<string>Productivity</string>
+	<key>connections</key>
+	<dict>
+		<key>49FE06FB-6711-4279-88F7-72095AE3EE5B</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>51EC81AB-0A73-4D27-BCDC-80671E513FB5</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>Michael Nadel</string>
+	<key>description</key>
+	<string>Search cheat.sh</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>Cheats</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<true/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<true/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>cheat</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Loading...</string>
+				<key>script</key>
+				<string>get_browser() {
+	local prefs=~/Library/Preferences/com.apple.LaunchServices/com.apple.launchservices.secure
+	defaults read ${prefs} | awk -F'"' '/http;/{print window[(NR)-1]}{window[NR]=$2}'
+}
+
+lastmod() {
+     echo $(( $(date +%s) - $(stat -f%c "$1") ))
+}
+
+if [[ ! -f cheats.txt ]] || [[ $(lastmod cheats.txt) -gt 604800 ]]; then
+	curl -s https://cheat.sh/:list &gt;! cheats.txt
+fi
+
+echo "&lt;?xml version='1.0' encoding='utf-8'?&gt;"
+echo "&lt;items&gt;"
+
+while read -r line; do
+    echo "&lt;item valid='yes'&gt;&lt;title&gt;${line}&lt;/title&gt;&lt;arg&gt;${line}&lt;/arg&gt;&lt;/item&gt;"
+done &lt; cheats.txt
+
+echo "&lt;/items&gt;"</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string></string>
+				<key>title</key>
+				<string>Open a Cheatsheet</string>
+				<key>type</key>
+				<integer>5</integer>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>49FE06FB-6711-4279-88F7-72095AE3EE5B</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>browser</key>
+				<string></string>
+				<key>skipqueryencode</key>
+				<false/>
+				<key>skipvarencode</key>
+				<false/>
+				<key>spaces</key>
+				<string></string>
+				<key>url</key>
+				<string>https://cheat.sh/{query}</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openurl</string>
+			<key>uid</key>
+			<string>51EC81AB-0A73-4D27-BCDC-80671E513FB5</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string></string>
+	<key>uidata</key>
+	<dict>
+		<key>49FE06FB-6711-4279-88F7-72095AE3EE5B</key>
+		<dict>
+			<key>xpos</key>
+			<real>90</real>
+			<key>ypos</key>
+			<real>90</real>
+		</dict>
+		<key>51EC81AB-0A73-4D27-BCDC-80671E513FB5</key>
+		<dict>
+			<key>xpos</key>
+			<real>390</real>
+			<key>ypos</key>
+			<real>90</real>
+		</dict>
+	</dict>
+	<key>userconfigurationconfig</key>
+	<array/>
+	<key>version</key>
+	<string>1.0</string>
+	<key>webaddress</key>
+	<string></string>
+</dict>
+</plist>
