@@ -1,0 +1,39 @@
+#!/usr/bin/env python3
+
+import os
+import os.path
+import sys
+import time
+from urllib.request import Request, urlopen
+
+WEEK_SECS = 60*60*24*7
+DBFILE = "cheats.txt"
+
+def refresh_database():
+	headers = {"User-Agent": "curl/8.1.2"}
+	req = Request("https://cheat.sh/:list", headers=headers)
+
+	with urlopen(req) as u, open(DBFILE, mode="b+w") as f:
+		try:
+			f.write(u.read())
+		except Exception as e:
+			print(e)
+			if os.path.isfile(DBFILE):
+				os.remove(DBFILE)
+			sys.exit(1)
+
+def secs_since_updated(fname):
+	return time.time() - os.path.getmtime(fname)
+
+if not os.path.isfile(DBFILE) or secs_since_updated(DBFILE) >= WEEK_SECS:
+	refresh_database()
+
+print("""<?xml version="1.0" encoding="utf-8"?>""")
+print("<items>")
+
+with open(DBFILE, mode="r", encoding="utf8") as f:
+    for line in f:
+        kw = line.strip()
+        print(f"""<item valid="yes"><title>{kw}</title><arg>{kw}</arg></item>""")
+
+print("</items>")

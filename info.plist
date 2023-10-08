@@ -71,50 +71,17 @@
 				<key>runningsubtext</key>
 				<string>Loading...</string>
 				<key>script</key>
-				<string>import os
-import sys
-import time
-import os.path
-import urllib.request
-
-WEEK_SECS = 60*60*24*7
-
-def load_cheatsheets():
-	headers = {"User-Agent": "curl/8.1.2"}
-	req = urllib.request.Request("https://cheat.sh/:list", headers=headers)
-	u = urllib.request.urlopen(req)
-	return u.read()
-
-if not os.path.isfile("cheats.txt") or time.time() - os.path.getmtime("cheats.txt") &gt;= WEEK_SECS:
-	try:
-		with open("cheats.txt", mode="b+w") as f:
-    			f.write(load_cheatsheets())
-	except Exception as e:
-		print(e)
-		if os.path.isfile("cheats.txt"):
-			os.remove("cheats.txt")
-		sys.exit(1)
-
-print("&lt;?xml version='1.0' encoding='utf-8'?&gt;")
-print("&lt;items&gt;")
-
-with open("cheats.txt", mode="r", encoding="utf8") as f:
-    for line in f:
-        kw = line.strip()
-        print(f"&lt;item valid='yes'&gt;&lt;title&gt;{kw}&lt;/title&gt;&lt;arg&gt;{kw}&lt;/arg&gt;&lt;/item&gt;")
-
-print("&lt;/items&gt;")
-</string>
+				<string>./cheats</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
-				<string></string>
+				<string>cheats</string>
 				<key>subtext</key>
 				<string></string>
 				<key>title</key>
 				<string>Open a Cheatsheet</string>
 				<key>type</key>
-				<integer>9</integer>
+				<integer>8</integer>
 				<key>withspace</key>
 				<false/>
 			</dict>
