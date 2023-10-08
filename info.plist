@@ -4,11 +4,22 @@
 <dict>
 	<key>bundleid</key>
 	<string>org.nadel.cheats</string>
-	<key>category</key>
-	<string>Productivity</string>
 	<key>connections</key>
 	<dict>
 		<key>49FE06FB-6711-4279-88F7-72095AE3EE5B</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>51EC81AB-0A73-4D27-BCDC-80671E513FB5</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>E714FE1C-CFBB-4308-A4E9-0FBDD964442B</key>
 		<array>
 			<dict>
 				<key>destinationuid</key>
@@ -60,27 +71,27 @@
 				<key>runningsubtext</key>
 				<string>Loading...</string>
 				<key>script</key>
-				<string>get_browser() {
-	local prefs=~/Library/Preferences/com.apple.LaunchServices/com.apple.launchservices.secure
-	defaults read ${prefs} | awk -F'"' '/http;/{print window[(NR)-1]}{window[NR]=$2}'
-}
+				<string>import time
+import urllib
+import os.path
 
-lastmod() {
-     echo $(( $(date +%s) - $(stat -f%c "$1") ))
-}
+WEEK_SECS = 60*60*24*7
 
-if [[ ! -f cheats.txt ]] || [[ $(lastmod cheats.txt) -gt 604800 ]]; then
-	curl -s https://cheat.sh/:list &gt;! cheats.txt
-fi
+if not os.path.isfile("cheats.txt") or time.time() - os.path.getmtime("cheats.txt") &gt; WEEK_SECS:
+	u = urllib.request.urlopen("https://cheat.sh/:list", 5)
+	with open("cheats.txt", mode="w", encoding="utf8") as f:
+    		f.write(u.read())
 
-echo "&lt;?xml version='1.0' encoding='utf-8'?&gt;"
-echo "&lt;items&gt;"
+print("&lt;?xml version='1.0' encoding='utf-8'?&gt;")
+print("&lt;items&gt;")
 
-while read -r line; do
-    echo "&lt;item valid='yes'&gt;&lt;title&gt;${line}&lt;/title&gt;&lt;arg&gt;${line}&lt;/arg&gt;&lt;/item&gt;"
-done &lt; cheats.txt
+with open("cheats.txt", mode="r", encoding="utf8") as f:
+    for line in f:
+        kw = line.strip()
+        print(f"&lt;item valid='yes'&gt;&lt;title&gt;{kw}&lt;/title&gt;&lt;arg&gt;{kw}&lt;/arg&gt;&lt;/item&gt;")
 
-echo "&lt;/items&gt;"</string>
+print("&lt;/items&gt;")
+</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -90,7 +101,7 @@ echo "&lt;/items&gt;"</string>
 				<key>title</key>
 				<string>Open a Cheatsheet</string>
 				<key>type</key>
-				<integer>5</integer>
+				<integer>9</integer>
 				<key>withspace</key>
 				<false/>
 			</dict>
@@ -111,7 +122,7 @@ echo "&lt;/items&gt;"</string>
 				<key>skipvarencode</key>
 				<false/>
 				<key>spaces</key>
-				<string></string>
+				<string>+</string>
 				<key>url</key>
 				<string>https://cheat.sh/{query}</string>
 			</dict>
@@ -119,6 +130,27 @@ echo "&lt;/items&gt;"</string>
 			<string>alfred.workflow.action.openurl</string>
 			<key>uid</key>
 			<string>51EC81AB-0A73-4D27-BCDC-80671E513FB5</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>keyword</key>
+				<string>ch</string>
+				<key>subtext</key>
+				<string>eg: go/mutex elixir/:learn ruby/open+file</string>
+				<key>text</key>
+				<string>Search Cheatsheets</string>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>E714FE1C-CFBB-4308-A4E9-0FBDD964442B</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
@@ -137,9 +169,16 @@ echo "&lt;/items&gt;"</string>
 		<key>51EC81AB-0A73-4D27-BCDC-80671E513FB5</key>
 		<dict>
 			<key>xpos</key>
-			<real>390</real>
+			<real>405</real>
 			<key>ypos</key>
-			<real>90</real>
+			<real>185</real>
+		</dict>
+		<key>E714FE1C-CFBB-4308-A4E9-0FBDD964442B</key>
+		<dict>
+			<key>xpos</key>
+			<real>85</real>
+			<key>ypos</key>
+			<real>305</real>
 		</dict>
 	</dict>
 	<key>userconfigurationconfig</key>
