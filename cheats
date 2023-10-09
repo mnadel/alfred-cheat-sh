@@ -9,7 +9,7 @@ DBFILE = "cheats.txt"
 
 def refresh_database():
     """Download the latest cheat sheet list from cheat.sh."""
-    headers = {"User-Agent": "curl/8.1.2"}
+    headers = {"User-Agent": "curl/8.1.2"} # this is how we get a plaintext response
     req = Request("https://cheat.sh/:list", headers=headers)
 
     with urlopen(req) as u, open(DBFILE, mode="b+w") as f:
