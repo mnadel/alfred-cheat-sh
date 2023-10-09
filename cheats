@@ -1,32 +1,31 @@
 #!/usr/bin/env python3
 
-import os
-import os.path
-import sys
 import time
+from os import path, remove
 from urllib.request import Request, urlopen
 
 WEEK_SECS = 60*60*24*7
 DBFILE = "cheats.txt"
 
 def refresh_database():
-	headers = {"User-Agent": "curl/8.1.2"}
-	req = Request("https://cheat.sh/:list", headers=headers)
+    """Download the latest cheat sheet list from cheat.sh."""
+    headers = {"User-Agent": "curl/8.1.2"}
+    req = Request("https://cheat.sh/:list", headers=headers)
 
-	with urlopen(req) as u, open(DBFILE, mode="b+w") as f:
-		try:
-			f.write(u.read())
-		except Exception as e:
-			print(e)
-			if os.path.isfile(DBFILE):
-				os.remove(DBFILE)
-			sys.exit(1)
+    with urlopen(req) as u, open(DBFILE, mode="b+w") as f:
+        try:
+            f.write(u.read())
+        except Exception as e:
+            if path.isfile(DBFILE):
+                remove(DBFILE)
+            raise e
 
 def secs_since_updated(fname):
-	return time.time() - os.path.getmtime(fname)
+    """Return the number of seconds since the file was last modified."""
+    return time.time() - path.getmtime(fname)
 
-if not os.path.isfile(DBFILE) or secs_since_updated(DBFILE) >= WEEK_SECS:
-	refresh_database()
+if not path.isfile(DBFILE) or secs_since_updated(DBFILE) >= WEEK_SECS:
+    refresh_database()
 
 print("""<?xml version="1.0" encoding="utf-8"?>""")
 print("<items>")
