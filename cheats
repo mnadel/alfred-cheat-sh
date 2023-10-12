@@ -6,6 +6,7 @@ data = {
     "items": []
 }
 
+# see https://www.alfredapp.com/help/workflows/inputs/script-filter/json/
 with open("cheatsheets.txt", mode="r", encoding="utf8") as f:
     for line in f:
         kw = line.strip()
@@ -14,4 +15,4 @@ with open("cheatsheets.txt", mode="r", encoding="utf8") as f:
             "arg": kw,
         })
 
-print(json.dumps(data, indent=4))
+print(json.dumps(data))
