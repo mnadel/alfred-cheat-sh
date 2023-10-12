@@ -49,7 +49,7 @@
 				<key>alfredfiltersresults</key>
 				<true/>
 				<key>alfredfiltersresultsmatchmode</key>
-				<integer>0</integer>
+				<integer>1</integer>
 				<key>argumenttreatemptyqueryasnil</key>
 				<true/>
 				<key>argumenttrimmode</key>
@@ -71,7 +71,7 @@
 				<key>runningsubtext</key>
 				<string>Loading...</string>
 				<key>script</key>
-				<string>./cheats</string>
+				<string>cat cheatsheets.json</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -81,7 +81,7 @@
 				<key>title</key>
 				<string>Open a Cheatsheet</string>
 				<key>type</key>
-				<integer>8</integer>
+				<integer>5</integer>
 				<key>withspace</key>
 				<false/>
 			</dict>

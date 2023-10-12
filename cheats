@@ -1,38 +1,17 @@
 #!/usr/bin/env python3
 
-import time
-from os import path, remove
-from urllib.request import Request, urlopen
+import json
 
-WEEK_SECS = 60*60*24*7
-DBFILE = "cheats.txt"
+data = {
+    "items": []
+}
 
-def refresh_database():
-    """Download the latest cheat sheet list from cheat.sh."""
-    headers = {"User-Agent": "curl/8.1.2"} # this is how we get a plaintext response
-    req = Request("https://cheat.sh/:list", headers=headers)
-
-    with urlopen(req) as u, open(DBFILE, mode="b+w") as f:
-        try:
-            f.write(u.read())
-        except Exception as e:
-            if path.isfile(DBFILE):
-                remove(DBFILE)
-            raise e
-
-def secs_since_updated(fname):
-    """Return the number of seconds since the file was last modified."""
-    return time.time() - path.getmtime(fname)
-
-if not path.isfile(DBFILE) or secs_since_updated(DBFILE) >= WEEK_SECS:
-    refresh_database()
-
-print("""<?xml version="1.0" encoding="utf-8"?>""")
-print("<items>")
-
-with open(DBFILE, mode="r", encoding="utf8") as f:
+with open("cheatsheets.txt", mode="r", encoding="utf8") as f:
     for line in f:
         kw = line.strip()
-        print(f"""<item valid="yes"><title>{kw}</title><arg>{kw}</arg></item>""")
+        data["items"].append({
+            "title": kw,
+            "arg": kw,
+        })
 
-print("</items>")
+print(json.dumps(data, indent=4))
